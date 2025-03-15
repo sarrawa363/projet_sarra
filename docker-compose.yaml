@@ -1,0 +1,33 @@
+ 
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    image: sarrawa363/backend:v1.0.0
+    container_name: backend-api
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST= localhost #mysql
+      - DB_USER= sarrawa #root
+      - DB_PASSWORD=passer  #password
+      - DB_NAME=backend_db
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=passer  #password
+      - MYSQL_DATABASE=backend_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+
+volumes:
+  mysql-data:
